@@ -1,0 +1,21 @@
+
+services:
+  # Servicio backend Laravel/PHP
+  backend:
+    ports:
+      - "${APP_EXPOSE_PORT}:8000" # Puerto para Laravel
+    volumes:
+      - ./backend:/app 
+    command: php artisan serve --host=0.0.0.0 --port=8000
+
+  # Servicio frontend Node/Vite
+  frontend:
+    ports:
+      - "5173:5173" # Puerto para Vite (frontend)
+    volumes:
+      - ./frontend:/app
+
+  # Servicio de la base de datos PostgreSQL
+  db:
+    ports:
+      - "${DB_EXPOSE_PORT}:5432" # Mapea el puerto 5432 del contenedor al puerto 5432 del host

@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ${DOCKERFILE}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db # Asegura que la base de datos se inicie antes que la app
+    env_file: ".env" # Carga todas las variables definidas en tu archivo .env
+    networks:
+      - application # Conecta la app a la red compartida
+    restart: unless-stopped # Reinicia automáticamente si falla
+  
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    volumes:
+      - ./frontend:/app
+    networks:
+      - application
+    restart: unless-stopped
+  
+  db:
+    container_name: db
+    image: postgres:16.6-alpine3.21
+    volumes:
+      - ./data:/var/lib/postgresql/data # Persistencia de los datos de la base de datos
+    networks:
+      - application # Conecta la base de datos a la red compartida
+    env_file: ".env" # Carga las variables de entorno para la base de datos desde .env
+
+networks:
+  application:
+    driver: bridge # Tipo de red

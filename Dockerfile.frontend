@@ -1,0 +1,15 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Instalar dependencias
+COPY ./frontend/package*.json ./
+
+RUN npm install
+
+# Copiar la aplicación frontend
+COPY ./frontend .
+
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
