@@ -15,47 +15,54 @@ Antes de comenzar, asegúrate de tener instalado:
 
 ## 🛠️ Instalación y Configuración
 
-### 1. Clonar el repositorio
+### Opción 1: Setup Automático (Recomendado)
+
+```bash
+# 1. Clonar el repositorio
+git clone <url-del-repositorio>
+cd Laravel-NodeDocker
+
+# 2. Ejecutar el script de configuración automática
+./setup.sh
+```
+
+El script `setup.sh` automáticamente:
+- Construye y levanta los contenedores
+- Instala todas las dependencias del backend y frontend
+- Genera la clave de aplicación de Laravel
+- Ejecuta las migraciones de base de datos
+- Deja todo listo para empezar a desarrollar
+
+### Opción 2: Setup Manual
+
+#### 1. Clonar el repositorio
 
 ```bash
 git clone <url-del-repositorio>
 cd Laravel-NodeDocker
 ```
 
-### 2. Configurar variables de entorno
+#### 2. Configurar variables de entorno
 
 El archivo `.env` ya está configurado con los valores por defecto. Puedes modificarlo según tus necesidades.
 
-### 3. Levantar los contenedores
+#### 3. Levantar los contenedores
 
 ```bash
 # Construir las imágenes y levantar los contenedores
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
-Este comando:
-- Construye las imágenes de Docker para backend y frontend
-- Inicia PostgreSQL, Laravel backend y Vue frontend
-- Configura la red entre los servicios
+**Nota:** Los contenedores tienen scripts de inicialización automática que:
+- Instalan las dependencias automáticamente
+- Generan la clave de Laravel
+- Ejecutan las migraciones
 
-### 4. Instalar dependencias del backend
-
-```bash
-# Instalar dependencias de Composer
-docker-compose exec backend composer install
-
-# Generar la clave de aplicación de Laravel
-docker-compose exec backend php artisan key:generate
-
-# Ejecutar las migraciones de base de datos
-docker-compose exec backend php artisan migrate
-```
-
-### 5. Instalar dependencias del frontend
+Si es la primera vez, esto puede tomar unos minutos. Puedes ver el progreso con:
 
 ```bash
-# Instalar dependencias de npm
-docker-compose exec frontend npm install
+docker compose logs -f backend
+docker compose logs -f frontend
 ```
 
 ## 🚀 Uso
@@ -72,65 +79,65 @@ Una vez completada la instalación, los servicios estarán disponibles en:
 
 ```bash
 # Ver el estado de los contenedores
-docker-compose ps
+docker compose ps
 
 # Ver los logs de todos los servicios
-docker-compose logs -f
+docker compose logs -f
 
 # Ver logs de un servicio específico
-docker-compose logs -f backend
-docker-compose logs -f frontend
-docker-compose logs -f db
+docker compose logs -f backend
+docker compose logs -f frontend
+docker compose logs -f db
 
 # Detener los contenedores
-docker-compose stop
+docker compose stop
 
 # Detener y eliminar los contenedores
-docker-compose down
+docker compose down
 
 # Detener y eliminar contenedores, volúmenes y redes
-docker-compose down -v
+docker compose down -v
 ```
 
 #### Comandos del backend (Laravel)
 
 ```bash
 # Ejecutar comandos de artisan
-docker-compose exec backend php artisan migrate
-docker-compose exec backend php artisan make:controller NombreController
-docker-compose exec backend php artisan make:model NombreModel
+docker compose exec backend php artisan migrate
+docker compose exec backend php artisan make:controller NombreController
+docker compose exec backend php artisan make:model NombreModel
 
 # Ejecutar shell en el contenedor del backend
-docker-compose exec backend bash
+docker compose exec backend bash
 
 # Limpiar caché
-docker-compose exec backend php artisan cache:clear
-docker-compose exec backend php artisan config:clear
-docker-compose exec backend php artisan route:clear
+docker compose exec backend php artisan cache:clear
+docker compose exec backend php artisan config:clear
+docker compose exec backend php artisan route:clear
 ```
 
 #### Comandos del frontend (Vue)
 
 ```bash
 # Ejecutar comandos de npm
-docker-compose exec frontend npm run build
-docker-compose exec frontend npm run dev
+docker compose exec frontend npm run build
+docker compose exec frontend npm run dev
 
 # Ejecutar shell en el contenedor del frontend
-docker-compose exec frontend sh
+docker compose exec frontend sh
 ```
 
 #### Comandos de base de datos
 
 ```bash
 # Conectarse a PostgreSQL
-docker-compose exec db psql -U postgres -d proyecto_db
+docker compose exec db psql -U postgres -d proyecto_db
 
 # Hacer backup de la base de datos
-docker-compose exec db pg_dump -U postgres proyecto_db > backup.sql
+docker compose exec db pg_dump -U postgres proyecto_db > backup.sql
 
 # Restaurar backup
-docker-compose exec -T db psql -U postgres proyecto_db < backup.sql
+docker compose exec -T db psql -U postgres proyecto_db < backup.sql
 ```
 
 ## 📁 Estructura del Proyecto
@@ -150,7 +157,7 @@ Laravel-NodeDocker/
 │   │   └── App.vue     # Componente principal
 │   └── ...
 ├── data/               # Datos persistentes de PostgreSQL
-├── docker-compose.yaml # Configuración de Docker Compose
+├── docker compose.yaml # Configuración de Docker Compose
 ├── Dockerfile         # Dockerfile para backend
 ├── Dockerfile.frontend # Dockerfile para frontend
 ├── .env              # Variables de entorno
@@ -189,14 +196,14 @@ const response = await apiClient.post('/endpoint', { data: 'value' });
 
 1. Verifica que el contenedor de PostgreSQL esté corriendo:
    ```bash
-   docker-compose ps
+   docker compose ps
    ```
 
 2. Verifica las credenciales en el archivo `.env`
 
 3. Reinicia los contenedores:
    ```bash
-   docker-compose restart
+   docker compose restart
    ```
 
 ### El frontend no se conecta al backend
@@ -207,7 +214,7 @@ const response = await apiClient.post('/endpoint', { data: 'value' });
 
 3. Verifica los logs del backend:
    ```bash
-   docker-compose logs -f backend
+   docker compose logs -f backend
    ```
 
 ### Error: "Permission denied"
@@ -223,12 +230,12 @@ sudo chmod -R 775 backend/storage backend/bootstrap/cache
 
 1. Para Laravel, limpia la caché:
    ```bash
-   docker-compose exec backend php artisan cache:clear
+   docker compose exec backend php artisan cache:clear
    ```
 
 2. Para Vue, asegúrate de que el servidor de desarrollo esté corriendo:
    ```bash
-   docker-compose logs -f frontend
+   docker compose logs -f frontend
    ```
 
 ## 📝 Notas Adicionales

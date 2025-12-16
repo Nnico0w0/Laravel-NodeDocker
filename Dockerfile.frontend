@@ -2,14 +2,13 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Instalar dependencias
-COPY ./frontend/package*.json ./
-
-RUN npm install
-
-# Copiar la aplicación frontend
-COPY ./frontend .
+# El código se montará como volumen, no lo copiamos aquí
+# Esto permite desarrollo en vivo
 
 EXPOSE 5173
 
-CMD ["npm", "run", "dev"]
+# Copiar el entrypoint script
+COPY frontend/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]

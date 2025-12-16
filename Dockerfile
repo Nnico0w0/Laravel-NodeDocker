@@ -14,6 +14,7 @@ RUN apt-get update && \
     pkg-config \
     curl \
     unzip \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
 RUN git config --global --add safe.directory /app
@@ -29,6 +30,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 EXPOSE 8000
 
-# El comando se especificará en docker-compose.yaml
+# Copiar el entrypoint script
+COPY backend/docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 
