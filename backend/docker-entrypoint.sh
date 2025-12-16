@@ -18,8 +18,8 @@ if [ ! -d "vendor" ]; then
     composer install --no-interaction --prefer-dist --optimize-autoloader
 fi
 
-# Generar key si no existe
-if grep -q "APP_KEY=$" .env || ! grep -q "APP_KEY=" .env; then
+# Generar key si no existe o está vacía
+if ! grep -q "APP_KEY=base64:" .env; then
     echo "🔑 Generando clave de aplicación..."
     php artisan key:generate --force
 fi

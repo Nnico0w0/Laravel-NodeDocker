@@ -2,19 +2,26 @@
 import { ref, onMounted } from 'vue';
 import apiClient from './services/api';
 
+interface BackendResponse {
+  message: string;
+  database: string;
+  timestamp: string;
+  environment: string;
+}
+
 const backendStatus = ref<string>('Conectando...');
-const backendData = ref<any>(null);
+const backendData = ref<BackendResponse | null>(null);
 const error = ref<string>('');
 
 const testConnection = async () => {
   try {
-    const response = await apiClient.get('/test');
+    const response = await apiClient.get<BackendResponse>('/test');
     backendStatus.value = 'Conectado ✓';
     backendData.value = response.data;
     error.value = '';
-  } catch (err: any) {
+  } catch (err) {
     backendStatus.value = 'Error de conexión ✗';
-    error.value = err.message;
+    error.value = err instanceof Error ? err.message : 'Error desconocido';
   }
 };
 
