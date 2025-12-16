@@ -23,7 +23,7 @@ RUN git config --global --add safe.directory /app
 RUN docker-php-ext-install pdo_pgsql zip exif pcntl bcmath gd intl xml
 
 # Instalar Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 # El código se montará como volumen, no lo copiamos aquí
 # Esto permite desarrollo en vivo
