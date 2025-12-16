@@ -1,6 +1,6 @@
 FROM php:8.4.2
+
 WORKDIR /app
-ARG WWWGROUP
 
 # Instalar dependencias del sistema
 RUN apt-get update && \
@@ -19,15 +19,16 @@ RUN apt-get update && \
 RUN git config --global --add safe.directory /app
 
 # Instalar extensiones PHP
-RUN docker-php-ext-install pdo_mysql pdo_pgsql zip exif pcntl bcmath gd intl xml
+RUN docker-php-ext-install pdo_pgsql zip exif pcntl bcmath gd intl xml
 
 # Instalar Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN composer self-update
-RUN composer --version
-COPY ./backend /app
-RUN composer install
+
+# El código se montará como volumen, no lo copiamos aquí
+# Esto permite desarrollo en vivo
+
 EXPOSE 8000
+
+# El comando se especificará en docker-compose.yaml
 
 
