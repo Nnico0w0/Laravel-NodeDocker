@@ -53,7 +53,12 @@ cd Laravel-NodeDocker
 
 #### 2. Configurar variables de entorno
 
-El archivo `.env` ya está configurado con los valores por defecto. Puedes modificarlo según tus necesidades.
+El archivo `.env` (tanto en la raíz como en `backend/.env`) ya está configurado con valores por defecto para desarrollo local. 
+
+⚠️ **Importante para Producción**: Los archivos `.env` incluyen credenciales de desarrollo. Para producción, asegúrate de:
+- Usar credenciales seguras y únicas
+- No versionar los archivos `.env` en el repositorio
+- Usar variables de entorno o un sistema de gestión de secretos
 
 #### 3. Levantar los contenedores
 
