@@ -7,15 +7,6 @@ Este proyecto es una aplicación full-stack que incluye:
 
 Todo configurado con Docker para facilitar el desarrollo y despliegue.
 
-> 💡 **¿Primera vez aquí?** Lee la [Guía de Inicio Rápido (QUICKSTART.md)](QUICKSTART.md) para poner en marcha el proyecto en 5 minutos.
-
-## 📚 Documentación
-
-- **[QUICKSTART.md](QUICKSTART.md)** - Inicio rápido en 5 minutos
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Arquitectura y diseño del sistema
-- **[TESTING.md](TESTING.md)** - Guía de pruebas y verificación
-- **README.md** (este archivo) - Documentación completa
-
 ## 📋 Requisitos Previos
 
 Antes de comenzar, asegúrate de tener instalado:
@@ -267,14 +258,6 @@ Si deseas contribuir al proyecto:
 3. Commit tus cambios (`git commit -m 'Agrega nueva funcionalidad'`)
 4. Push a la rama (`git push origin feature/NuevaFuncionalidad`)
 5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la licencia MIT.
-
-## 📧 Contacto
-
-Para preguntas o soporte, por favor abre un issue en el repositorio.
 
 ---
 
