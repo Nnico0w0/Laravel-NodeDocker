@@ -5,8 +5,7 @@ services:
     ports:
       - "${APP_EXPOSE_PORT}:8000" # Puerto para Laravel
     volumes:
-      - ./backend:/app 
-    command: php artisan serve --host=0.0.0.0 --port=8000
+      - ./backend:/app
 
   # Servicio frontend Node/Vite
   frontend:
